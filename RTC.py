@@ -248,10 +248,7 @@ class Videos(rtc):
     
 
     @classmethod
-    def get_by_bill(cls, bill_id, sections=('clip_urls', 'duration', 
-											'legislative_day', 
-											'clip_id','video_id',
-											 'bills', 'clips')):        
+    def get_by_bill(cls, bill_id, sections=('clip_urls', 'duration', 'legislative_day', 'clip_id', 'video_id', 'bills', 'clips')):        
         func = "videos"
         params = {'clips.bills': bill_id}
         results = super(Videos, cls).get(func, params, sections)
