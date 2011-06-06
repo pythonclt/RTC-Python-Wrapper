@@ -26,12 +26,12 @@ Development Notes for Contributers:
 ----------------------------------
 - dict2obj is a function that coverts the json converted dictionary into a usable object. Since much of the RTC API's fields are not guaranteed, this may help avoid the extra coding for keyErrors.  Additionally, it is convenient to use dot notation instead of dictionaries.
 
-###Creating class methods for collections
+###How to create class methods for collections
 This is the basic structure:
 <pre><code>
 class Bill(rtc): #name of collection (eg: bills, videos, floor, updates)
-    """  '__doc__' string goes here """
-    '__help__' = RTC_helpers.BILL_HELPER #string created and imported from RTC_helpers.py   
+    """  __doc_\_ string goes here """
+    __help_\_ = RTC_helpers.BILL_HELPER #string created and imported from RTC_helpers.py   
     ...
     @classmethod
     def actions(cls, bill_id, sections=('actions',)): 
