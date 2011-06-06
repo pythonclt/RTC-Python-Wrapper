@@ -79,7 +79,7 @@ class rtc(object):
         if not(sections == ''):
             urlized_sections = ','.join([arg for arg in sections])
             url += '&sections=' + urlized_sections
-        print url
+        print url #temporary - used for debugging purposes
         try:
             response = unicode(urlopen(url).read(), 'utf8').decode()
             dictionary = json.loads(response)
@@ -115,38 +115,38 @@ class Bill(rtc):
     
     @classmethod
     def actions(cls, bill_id, sections=('actions',)):
-		"""
-		list of actions 
-			Attributes of each action: text, acted_at, and type 
-		"""
-		
-		func = "bills"
-		params = {'bill_id': bill_id}
-		result = super(Bill, cls).get(func, params, sections)
-		bill = result.bills[0]
-		return [i for i in bill.actions]
+        """
+        list of actions 
+            Attributes of each action: text, acted_at, and type 
+        """
+        
+        func = "bills"
+        params = {'bill_id': bill_id}
+        result = super(Bill, cls).get(func, params, sections)
+        bill = result.bills[0]
+        return [i for i in bill.actions]
     
     @classmethod
     def passage_votes(cls, bill_id, sections=('passage_votes',)):
-		"""
-		list of passage votes 
-			Attributes of each passage_vote: result, passage_type, voted_at, text, how, roll_id, chamber
-		"""
-		func = "bills"
-		params = {'bill_id':bill_id}
-		result = super(Bill, cls).get(func, params, sections)
-		bill = result.bills[0]
-		return [i for i in bill.passage_votes]
+        """
+        list of passage votes 
+            Attributes of each passage_vote: result, passage_type, voted_at, text, how, roll_id, chamber
+        """
+        func = "bills"
+        params = {'bill_id':bill_id}
+        result = super(Bill, cls).get(func, params, sections)
+        bill = result.bills[0]
+        return [i for i in bill.passage_votes]
         
     @classmethod
     def committees(cls, bill_id, sections=('committees', 'committee_ids')):
         """
-		returns a list of committee details & committee-specific 
-		activities related a bill  
-		    Attributes of committee: 
-		        activity (list)
-		        committee: name, committee_id, chamber
-		"""
+        returns a list of committee details & committee-specific 
+        activities related a bill  
+            Attributes of committee: 
+                activity (list)
+                committee: name, committee_id, chamber
+        """
         
         func = "bills"
         params = {'bill_id':bill_id}
@@ -154,6 +154,7 @@ class Bill(rtc):
         bill = result.bills[0]
         committees = bill.committees
         return bills.committees #TERRIBLE BUG HERE!!
+    
     #FIXME: committee_ids are not indexed on some bill objects
     @classmethod
     def committee_ids(cls, bill_id, sections=('committee_ids',)): 
