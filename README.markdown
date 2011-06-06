@@ -30,8 +30,8 @@ Development Notes for Contributers:
 This is the basic structure:
 <pre><code>
 class Bill(rtc): #name of collection (eg: bills, videos, floor, updates)
-    """  __doc__ string goes here """
-    __help__ = RTC_helpers.BILL_HELPER #string created and imported from RTC_helpers.py   
+    """  '__doc__' string goes here """
+    '__help__' = RTC_helpers.BILL_HELPER #string created and imported from RTC_helpers.py   
     ...
     @classmethod
     def actions(cls, bill_id, sections=('actions',)): 
