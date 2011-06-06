@@ -22,7 +22,7 @@ print bill.sponsor_id, bill.vetoed, bill.last_action.text
 
 See RTCtest.py for more examples usage.
 
-Development Notes for Contributers:
+Development Notes for Contributers
 ----------------------------------
 - dict2obj is a function that coverts the json converted dictionary into a usable object. Since much of the RTC API's fields are not guaranteed, this may help avoid the extra coding for keyErrors.  Additionally, it is convenient to use dot notation instead of dictionaries.
 
@@ -49,6 +49,9 @@ When writing a classmethod you can skip creating the obj and just return a dicti
     ...
     @classmethod
     def titles(cls, bill_id, sections=('titles',), make_obj=False):
+        ...
+        response = super(Bill, cls).get(func, params, sections, make_obj) #remember to declare make_obj
+        ...
     ...
 </pre></code>
 ### Other comments
