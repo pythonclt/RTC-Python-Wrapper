@@ -9,8 +9,8 @@ Example Usage
 You can specify the sections you want to pull from the RESTful API.
 <pre><code>
 sections = ('bill_id', 'sponsor', 'committees')
-result = Bill.get_bill(bill_id='hr3-112', sections=sections)
-print bill.sponsor_id, bill.vetoed, bill.last_action.text
+bill = Bill.get_bill(bill_id='hr3-112', sections=sections)
+print bill.sponsor_id
 </pre></code>
 
 Otherwise, it uses the default that's specified in the library.
