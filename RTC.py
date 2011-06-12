@@ -83,11 +83,14 @@ class rtc(object):
         try:
             response = unicode(urlopen(url).read(), 'utf8').decode()
             dictionary = json.loads(response)
-            if make_obj == True:
-                generated_obj = dict2obj(dictionary) #creates nested objects
-                result = SunlightApiObject(generated_obj.__dict__)
+            if dictionary == None:
+                result = [''] #empty result
             else:
-                result = SunlightApiObject(dictionary)
+                if make_obj == True:
+                    generated_obj = dict2obj(dictionary) #creates nested objects
+                    result = SunlightApiObject(generated_obj.__dict__)
+                else:
+                    result = SunlightApiObject(dictionary)
                 
             return result
 		
