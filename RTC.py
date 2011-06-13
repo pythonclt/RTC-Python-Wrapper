@@ -83,15 +83,11 @@ class rtc(object):
         try:
             response = unicode(urlopen(url).read(), 'utf8').decode()
             dictionary = json.loads(response)
-            if dictionary == None:
-                result = [''] #empty result
+            if make_obj == True:
+                generated_obj = dict2obj(dictionary) #creates nested objects
+                result = SunlightApiObject(generated_obj.__dict__)
             else:
-                if make_obj == True:
-                    generated_obj = dict2obj(dictionary) #creates nested objects
-                    result = SunlightApiObject(generated_obj.__dict__)
-                else:
-                    result = SunlightApiObject(dictionary)
-                
+                result = SunlightApiObject(dictionary)
             return result
 		
         except HTTPError, e:
@@ -108,6 +104,23 @@ class Bill(rtc):
     """
     __help__ = RTC_helpers.BILL_HELPER
     
+    @classmethod
+    def bill_check(cls, bill_id, sections=('bill_id',), make_obj=False): #check if bill exists
+        """
+           checks to see if bill exists
+           usage: exists = RTC.Bill.bill_check(bill_id)
+           returns True if exists.
+        """
+        func = "bills"
+        params = {'bill_id':bill_id}
+        result = super(Bill, cls).get(func, params, sections, make_obj)
+            
+        try: 
+            bill = result.bills[0].get('bill_id')
+            exists = True
+        except IndexError:
+            exists = False    
+        return exists
     @classmethod
     def get_bill(cls, bill_id, sections=RTC_helpers.BILL_DEFAULT_SECTIONS):
         func = "bills"
