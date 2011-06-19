@@ -5,13 +5,19 @@ Must be edited manually.
 import RTC
 from pprint import *
 bill_id='hr2-112'
-RTC.API_KEY = 'API-KEY GOES HERE'
+RTC.API_KEY = 'xxxxx'
 
 #bill tests
 def bill():
 	bill = RTC.Bill.get_bill(bill_id)
 	print bill.sponsor_id, bill.vetoed, bill.last_action.text
-	
+
+def mult_bills():
+	bills = RTC.Bill.get_mult_bills(['hr1-112', 'hr2-112', 'hr3-112'], sections='')
+	for i in bills:
+		for a in i.actions:
+			print a.type, a.acted_at, a.text 
+		
 def bill_actions():
 	actions = RTC.Bill.actions(bill_id)
 	for a in actions:
@@ -57,4 +63,4 @@ def video_test():
 		for clip in v.clips:
 			print "* offset: %s | duration: %s | summary: %s  " % (clip.offset, clip.duration, clip.events[0]) 
 
-bill_cosponsors() #desired test function goes here
+mult_bills() #desired test function goes here

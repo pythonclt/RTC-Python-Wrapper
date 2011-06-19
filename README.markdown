@@ -1,5 +1,20 @@
 RTC Python Library
 ==================
+UPDATE 06-18-2011
+------
+Added a classmethod to query multiple bills in one request. This is very
+efficient for cases that require iterations through a list of bill_ids.
+Usage: 
+<pre><code>
+bill_list = ['hr1-112', 'hr2-112']
+#note: setting sections='', will request all sections for each bill
+bills = RTC.get_mult_bills(bill_list, sections='') 
+</pre></code>
+See RTCtest.py for a full example.
+
+
+
+
 Requirements
 ------------
 python >= 2.6
