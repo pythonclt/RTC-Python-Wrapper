@@ -7,7 +7,7 @@ efficient for cases that require iterations through a list of bill_ids.
 Usage: 
 <pre><code>
 bill_list = ['hr1-112', 'hr2-112']
-#note: setting sections='', will request all sections for each bill
+\#note: setting sections='', will request all sections for each bill
 bills = RTC.get_mult_bills(bill_list, sections='') 
 </pre></code>
 See RTCtest.py for a full example.
