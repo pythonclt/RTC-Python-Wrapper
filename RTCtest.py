@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 Simple test file to make sure each function is working.
 Must be edited manually.
@@ -5,7 +6,7 @@ Must be edited manually.
 import RTC
 from pprint import *
 bill_id='hr2-112'
-RTC.API_KEY = 'xxxxx'
+RTC.API_KEY = 'c448541518f24d79b652ccc57b384815'
 
 #bill tests
 def bill():
