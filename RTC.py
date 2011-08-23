@@ -1,5 +1,5 @@
 """
-An unofficial python library for interacting with the Sunlight Labs 
+An unofficial python library for interacting with the Sunlight Labs
 Real Time Congress API.
 """
 
@@ -29,7 +29,7 @@ try:
 except ImportError:
     import simplejson as json
 
-import RTC_helpers #includes class doc strings etc.
+import RTC_helpers  # includes class doc strings etc.
 
 API_KEY = None
 
@@ -46,7 +46,8 @@ def dict2obj(d):
                 n[item] = [dict2obj(elem) for elem in d[item]]
             else:
                 n[item] = d[item]
-        return type('dict2obj', (object,), n) #create new object from dict or nested dictionary
+        return type('dict2obj', (object,), n)
+        # create new object from dict or nested dictionary
     elif isinstance(d, (list, tuple,)):
         l = []
         for item in d:
@@ -55,116 +56,126 @@ def dict2obj(d):
     else:
         return d
 
+
 class SunlightApiObject(object):
     def __init__(self, d):
         self.__dict__.update(d)
-            
+
     def __iter__(self):
         for item in self.__dict__:
             yield self.__dict__[item]
+
     def __repr__(self):
         pretty_dictionary = pprint(self.__dict__)
         return '%s(%r)' % (self.__class__.__name__, pretty_dictionary)
-   
+
+
 class Error(Exception):
     """Class place holder for errors"""
-     
+
+
 class rtc(object):
     @classmethod
-    def get(self, func, params = {}, sections='', make_obj=True):
+    def get(self, func, params={}, sections='', make_obj=True):
         if API_KEY is None:
             raise Error("An API key is required")
-        url = 'http://api.realtimecongress.org/api/v1/%s.json?apikey=%s&%s' % (func, API_KEY, urlencode(params))
-        #add the sections parameter to the url if passed as an argument
+        url = 'http://api.realtimecongress.org/api/v1/%s.json?apikey=%s&%s' %\
+            (func, API_KEY, urlencode(params))
+        # add the sections parameter to the url if passed as an argument
         if not(sections == ''):
             urlized_sections = ','.join([arg for arg in sections])
             url += '&sections=' + urlized_sections
-        print url #temporary - used for debugging purposes
+        print url  # temporary - used for debugging purposes
         try:
             response = unicode(urlopen(url).read(), 'utf8').decode()
             dictionary = json.loads(response)
             if make_obj == True:
-                generated_obj = dict2obj(dictionary) #creates nested objects
+                generated_obj = dict2obj(dictionary)  # creates nested objects
                 result = SunlightApiObject(generated_obj.__dict__)
             else:
                 result = SunlightApiObject(dictionary)
             return result
-		
+
         except HTTPError, e:
             raise Error(e.read())
         except (ValueError, KeyError), e:
             raise Error('Invalid Response')
 
+
 class Bill(rtc):
-    """ 
-        Usage: 
+    """
+        Usage:
             sections = ('bill_id', 'sponsor', 'committees')
             result = Bill.get_bill(bill_id='hr3-112', sections=sections)
         Help on search fields and sub-field details: $print Bill.__help__
     """
     __help__ = RTC_helpers.BILL_HELPER
-    
+
     @classmethod
-    def bill_check(cls, bill_id, sections=('bill_id',), make_obj=False): #check if bill exists
+    def bill_check(cls, bill_id, sections=('bill_id',), make_obj=False):
+    # check if bill exists
         """
            checks to see if bill exists
            usage: exists = RTC.Bill.bill_check(bill_id)
            returns True if exists.
         """
         func = "bills"
-        params = {'bill_id':bill_id}
+        params = {'bill_id': bill_id}
         result = super(Bill, cls).get(func, params, sections, make_obj)
-            
-        try: 
+
+        try:
             bill = result.bills[0].get('bill_id')
             exists = True
         except IndexError:
-            exists = False    
+            exists = False
         return exists
+
     @classmethod
     def get_bill(cls, bill_id, sections=RTC_helpers.BILL_DEFAULT_SECTIONS):
         func = "bills"
-        params = {'bill_id':bill_id}
+        params = {'bill_id': bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         return bill
+
     @classmethod
-    def get_mult_bills(cls, bill_ids, sections=RTC_helpers.BILL_DEFAULT_SECTIONS):
-	"""
-	USE THIS IF REQUESTING MULTIPLE BILLS
-	More efficient
-	bills = RTC.get_mult_bills(bill_ids='hr1-112|s1-112')
-	"""
-	func = "bills"
-	bills = ''
-	i, c = len(bill_ids), 1 #total num items in list AND counter
-	
-	#builds string like 'hr1-112|hr2-112|hr2-112' for params
-	for bill_id in bill_ids:
-		if c<i: bills += bill_id + '|'
-		else: bills += bill_id
-		c = c+1
-	params = {'bill_id__in': bills}
-	result = super(Bill, cls).get(func, params, sections)
-	bill_list = result.bills
-	return bill_list
+    def get_mult_bills(cls, bill_ids,
+                       sections=RTC_helpers.BILL_DEFAULT_SECTIONS):
+        """
+        USE THIS IF REQUESTING MULTIPLE BILLS
+        More efficient
+        bills = RTC.get_mult_bills(bill_ids='hr1-112|s1-112')
+        """
+        func = "bills"
+        bills = ''
+        i, c = len(bill_ids), 1  # total num items in list AND counter
+
+    #builds string like 'hr1-112|hr2-112|hr2-112' for params
+    for bill_id in bill_ids:
+        if c<i: bills += bill_id + '|'
+        else: bills += bill_id
+        c = c+1
+    params = {'bill_id__in': bills}
+    result = super(Bill, cls).get(func, params, sections)
+    bill_list = result.bills
+    return bill_list
     @classmethod
     def actions(cls, bill_id, sections=('actions',)):
         """
-        list of actions 
-            Attributes of each action: text, acted_at, and type 
+        list of actions
+            Attributes of each action: text, acted_at, and type
         """
-        
+
         func = "bills"
         params = {'bill_id': bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         return [i for i in bill.actions]
-    
+
     @classmethod
     def passage_votes(cls, bill_id, sections=('passage_votes',)):
         """
-        list of passage votes 
+        list of passage votes
             Attributes of each passage_vote: result, passage_type, voted_at, text, how, roll_id, chamber
         """
         func = "bills"
@@ -172,34 +183,34 @@ class Bill(rtc):
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         return [i for i in bill.passage_votes]
-        
+
     @classmethod
     def committees(cls, bill_id, sections=('committees', 'committee_ids')):
         """
-        returns a list of committee details & committee-specific 
-        activities related a bill  
-            Attributes of committee: 
+        returns a list of committee details & committee-specific
+        activities related a bill
+        Attributes of committee:
                 activity (list)
                 committee: name, committee_id, chamber
         """
-        
+
         func = "bills"
         params = {'bill_id':bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         committees = bill.committees
         return bills.committees #TERRIBLE BUG HERE!!
-    
+
     #FIXME: committee_ids are not indexed on some bill objects
     @classmethod
-    def committee_ids(cls, bill_id, sections=('committee_ids',)): 
+    def committee_ids(cls, bill_id, sections=('committee_ids',)):
         """ list of the committee ids """
         func = "bills"
         params = {'bill_id':bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         return committee_ids #Committee ids are not returning!!!
-    
+
     @classmethod
     def titles(cls, bill_id, sections=('titles',), make_obj=False):
         """
@@ -239,24 +250,24 @@ class Bill(rtc):
     def amendments(cls, bill_id, sections=('amendments',)):
         """
         list of amendments
-            Attributes of each amendment: 
-				sponsor_id, number, last_action_at, session,
-				amendment_id, offered_at, description, state, purpose,
-				chamber, bill_id
+            Attributes of each amendment:
+                sponsor_id, number, last_action_at, session,
+                amendment_id, offered_at, description, state, purpose,
+                chamber, bill_id
         """
         func = "bills"
         params = {"bill_id":bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         return [i for i in bill.amendments]
-    
+
     @classmethod
     def cosponsors(cls, bill_id, sections=('cosponsors',)):
         """
         list of cosponsors
-            Attributes of each cosponsor: 
+            Attributes of each cosponsor:
                 title, nickname, district, bioguide_id, govtrack_id,
-                last_name, name_suffix, party, first_name, state, 
+                last_name, name_suffix, party, first_name, state,
                 chamber
         """
         func = "bills"
@@ -272,23 +283,22 @@ class Votes(rtc):
         params = {'bill_id': bill_id}
         result = super(Votes, cls).get(func, params, sections)
         return result
-        
-        
-        
+
+
 
 class Videos(rtc):
     """ Currently only supports house type videos """
     __help__ = RTC_helpers.VIDEO_HELPER
     def __str__(self):
         return self.clip_id
-    
+
 
     @classmethod
     def get_by_bill(cls, bill_id, sections=('clip_urls', 'duration', 'legislative_day', 'clip_id', 'video_id', 'bills', 'clips')):        
         func = "videos"
         params = {'clips.bills': bill_id}
         results = super(Videos, cls).get(func, params, sections)
-        
+
         ### Only include clips from each video that contain bill_id ###
         clips = []
         for v in results.videos:
@@ -298,7 +308,3 @@ class Videos(rtc):
             v.clips = clips
         #################################################
         return results
-        
-    
-
-    
