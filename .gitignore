@@ -28,4 +28,4 @@ pip-log.txt
 
 
 #VIM
-.swp
+*.swp
