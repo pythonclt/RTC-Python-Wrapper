@@ -130,24 +130,24 @@ class Bill(rtc):
         return bill
     @classmethod
     def get_mult_bills(cls, bill_ids, sections=RTC_helpers.BILL_DEFAULT_SECTIONS):
-		"""
-		USE THIS IF REQUESTING MULTIPLE BILLS
-		More efficient
-		bills = RTC.get_mult_bills(bill_ids='hr1-112|s1-112')
-		"""
-		func = "bills"
-		bills = ''
-		i, c = len(bill_ids), 1 #total num items in list AND counter
-		
-		#builds string like 'hr1-112|hr2-112|hr2-112' for params
-		for bill_id in bill_ids:
-			if c<i: bills += bill_id + '|'
-			else: bills += bill_id
-			c = c+1
-		params = {'bill_id__in': bills}
-		result = super(Bill, cls).get(func, params, sections)
-		bill_list = result.bills
-		return bill_list
+	"""
+	USE THIS IF REQUESTING MULTIPLE BILLS
+	More efficient
+	bills = RTC.get_mult_bills(bill_ids='hr1-112|s1-112')
+	"""
+	func = "bills"
+	bills = ''
+	i, c = len(bill_ids), 1 #total num items in list AND counter
+	
+	#builds string like 'hr1-112|hr2-112|hr2-112' for params
+	for bill_id in bill_ids:
+		if c<i: bills += bill_id + '|'
+		else: bills += bill_id
+		c = c+1
+	params = {'bill_id__in': bills}
+	result = super(Bill, cls).get(func, params, sections)
+	bill_list = result.bills
+	return bill_list
     @classmethod
     def actions(cls, bill_id, sections=('actions',)):
         """
