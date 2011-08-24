@@ -32,5 +32,6 @@ class TestRTC(unittest.TestCase):
         for i in self.bills:
             self.assertEqual(i.bill_id, self.bill_id)
 
+
 if __name__ == '__main__':
     unittest.main()
