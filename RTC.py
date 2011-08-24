@@ -152,13 +152,16 @@ class Bill(rtc):
 
     #builds string like 'hr1-112|hr2-112|hr2-112' for params
     for bill_id in bill_ids:
-        if c<i: bills += bill_id + '|'
-        else: bills += bill_id
-        c = c+1
+        if c < i:
+            bills += bill_id + '|'
+        else:
+            bills += bill_id
+        c += 1
     params = {'bill_id__in': bills}
     result = super(Bill, cls).get(func, params, sections)
     bill_list = result.bills
     return bill_list
+
     @classmethod
     def actions(cls, bill_id, sections=('actions',)):
         """
@@ -176,10 +179,11 @@ class Bill(rtc):
     def passage_votes(cls, bill_id, sections=('passage_votes',)):
         """
         list of passage votes
-            Attributes of each passage_vote: result, passage_type, voted_at, text, how, roll_id, chamber
+        Attributes of each passage_vote: result, passage_type, voted_at, text,
+                                         how, roll_id, chamber
         """
         func = "bills"
-        params = {'bill_id':bill_id}
+        params = {'bill_id': bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         return [i for i in bill.passage_votes]
@@ -195,21 +199,21 @@ class Bill(rtc):
         """
 
         func = "bills"
-        params = {'bill_id':bill_id}
+        params = {'bill_id': bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         committees = bill.committees
-        return bills.committees #TERRIBLE BUG HERE!!
+        return bills.committees  # FIXME: TERRIBLE BUG HERE!!
 
     #FIXME: committee_ids are not indexed on some bill objects
     @classmethod
     def committee_ids(cls, bill_id, sections=('committee_ids',)):
         """ list of the committee ids """
         func = "bills"
-        params = {'bill_id':bill_id}
+        params = {'bill_id': bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
-        return committee_ids #Committee ids are not returning!!!
+        return committee_ids  # Committee ids are not returning!!!
 
     @classmethod
     def titles(cls, bill_id, sections=('titles',), make_obj=False):
@@ -218,34 +222,35 @@ class Bill(rtc):
             Attributes of each title: title, type, *type_as*
         """
         func = "bills"
-        params = {"bill_id":bill_id}
+        params = {"bill_id": bill_id}
         result = super(Bill, cls).get(func, params, sections, make_obj)
         bill = result.bills[0]
         for title in bill['titles']:
             value = title.get('as')
-            title['type_as'] = value #avoid keyword conflicts
+            title['type_as'] = value  # avoid keyword conflicts
         modified_result = dict2obj(bill['titles'])
         return modified_result
 
     @classmethod
-    def related_bills(cls, bill_id, sections=('related_bills',), make_obj=False):
+    def related_bills(cls, bill_id, sections=('related_bills',),
+                      make_obj=False):
         """
         returns list of related bills
         """
         func = "bills"
-        params = {"bill_id":bill_id}
+        params = {"bill_id": bill_id}
         response = super(Bill, cls).get(func, params, sections, make_obj)
         try:
             related_bills = response.bills[0].get('related_bills')
             related_types = related_bills.keys()
-            bill_list = [] 
+            bill_list = []
             for i in related_types:
                 for value in related_bills[i]:
                     bill_list.append(value)
-        except AttributeError: 
+        except AttributeError:
             bill_list = []
         return bill_list
-    
+
     @classmethod
     def amendments(cls, bill_id, sections=('amendments',)):
         """
@@ -256,7 +261,7 @@ class Bill(rtc):
                 chamber, bill_id
         """
         func = "bills"
-        params = {"bill_id":bill_id}
+        params = {"bill_id": bill_id}
         result = super(Bill, cls).get(func, params, sections)
         bill = result.bills[0]
         return [i for i in bill.amendments]
@@ -276,6 +281,7 @@ class Bill(rtc):
         bill = result.bills[0]
         return [i for i in bill.cosponsors]
 
+
 class Votes(rtc):
     @classmethod
     def get_by_bill(cls, bill_id, sections=''):
@@ -285,16 +291,17 @@ class Votes(rtc):
         return result
 
 
-
 class Videos(rtc):
     """ Currently only supports house type videos """
     __help__ = RTC_helpers.VIDEO_HELPER
+
     def __str__(self):
         return self.clip_id
 
-
     @classmethod
-    def get_by_bill(cls, bill_id, sections=('clip_urls', 'duration', 'legislative_day', 'clip_id', 'video_id', 'bills', 'clips')):        
+    def get_by_bill(cls, bill_id, sections=('clip_urls', 'duration',
+                                             'legislative_day', 'clip_id',
+                                             'video_id', 'bills', 'clips')):
         func = "videos"
         params = {'clips.bills': bill_id}
         results = super(Videos, cls).get(func, params, sections)
