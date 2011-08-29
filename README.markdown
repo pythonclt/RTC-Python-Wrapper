@@ -14,10 +14,10 @@ See RTCtest.py for a full example.
 
 
 
-
 Requirements
 ------------
 python >= 2.6
+unittest2
 
 Example Usage
 -------------
