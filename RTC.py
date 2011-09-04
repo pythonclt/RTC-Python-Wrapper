@@ -284,7 +284,37 @@ class Votes(rtc):
         result = super(Votes, cls).get(func, params, sections)
         return result
 
-
+class FloorUpdates(rtc):
+    @classmethod
+    def get_by_date(cls, legislative_day, sections=''):
+        func = "floor_updates"
+        params = {'legislative_day':legislative_day}
+        result = super(FloorUpdates, cls).get(func, params, sections)
+        return result.floor_updates 
+  
+    @classmethod   
+    def get_mult_dates(cls, legislative_days, sections=''):
+	"""
+	Example: 
+		date_list = ["08-29-2011", "08-30-2011"]	
+		floor_updates = RTC.FloorUpdates.get_mult_dates(date_list)
+	"""
+	func = "floor_updates"
+        query_string = "|".join(legislative_days)
+	params = {'legislative_day__in':query_string}	
+        result = super(FloorUpdates, cls).get(func, params, sections)
+	return result.floor_updates
+    
+    @classmethod
+    def get_todays(cls, sections=''):
+    	import datetime
+	now = datetime.datetime.now()
+        legislative_day = now.strftime("%Y-%m-%d")	
+        func = "floor_updates"
+        params = {'legislative_day': legislative_day}
+        result = super(FloorUpdates, cls).get(func, params, sections)
+	return result.floor_updates
+        
 class Videos(rtc):
     """ Currently only supports house type videos """
     __help__ = RTC_helpers.VIDEO_HELPER
