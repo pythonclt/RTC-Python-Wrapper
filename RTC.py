@@ -5,7 +5,7 @@ Real Time Congress API.
 
 __author__ = "Matt Johnson"
 __copyright__ = "Copyright 2011, RTC Python Library Project"
-__credits__ = ["James Turk - used his previous code as a guide"]
+__credits__ = ["James Turk - helped with getting us started"]
 __license__ = "BSD"
 __maintainer__ = "Matt Johnson"
 __email__ = "johnson.matthew.h@gmail.com"
