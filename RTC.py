@@ -1,5 +1,5 @@
 """
-An unofficial python library for interacting with the Sunlight Labs
+Python library for interacting with the Sunlight Labs
 Real Time Congress API.
 """
 
