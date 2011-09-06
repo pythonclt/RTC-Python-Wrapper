@@ -88,6 +88,28 @@ def votes():
     votes = RTC.Votes.get_by_bill(bill_id)
     print dir(votes)
 
+#floor_updates tests
+def floor_updates():
+    result = RTC.FloorUpdates.get_by_date('2011-09-02')
+    for i in result:
+        print "--------------------------------------"       
+        print i.chamber, i.timestamp
+        # These fields are not guaranteed:  i.bioguide_ids, i.roll_ids, i.bill_ids
+        print "EVENTS:"        
+        for e in i.events:
+            print e
+def get_mult_floor_updates():
+    date_list = ['2011-09-02', '2011-09-01', '2011-08-31',
+		 '2011-08-30', '2011-08-29']
+    result = RTC.FloorUpdates.get_mult_dates(date_list)
+    for i in result: print i.chamber, i.timestamp   
+
+def todays_floor_updates():
+    result = RTC.FloorUpdates.get_todays()
+    for i in result: print i.chamber, i.timestamp
+
+
+
 
 # video tests
 def video_test():
@@ -102,4 +124,4 @@ def video_test():
                 (clip.offset, clip.duration, clip.events[0])
 
 
-mult_bills()  # desired test function goes here
+get_mult_floor_updates()  # desired test function goes here

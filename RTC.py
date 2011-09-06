@@ -1,11 +1,11 @@
 """
-An unofficial python library for interacting with the Sunlight Labs
+Python library for interacting with the Sunlight Labs
 Real Time Congress API.
 """
 
 __author__ = "Matt Johnson"
 __copyright__ = "Copyright 2011, RTC Python Library Project"
-__credits__ = ["James Turk - used his previous code as a guide"]
+__credits__ = ["James Turk - helped with getting us started"]
 __license__ = "BSD"
 __maintainer__ = "Matt Johnson"
 __email__ = "johnson.matthew.h@gmail.com"
@@ -284,7 +284,37 @@ class Votes(rtc):
         result = super(Votes, cls).get(func, params, sections)
         return result
 
-
+class FloorUpdates(rtc):
+    @classmethod
+    def get_by_date(cls, legislative_day, sections=''):
+        func = "floor_updates"
+        params = {'legislative_day':legislative_day}
+        result = super(FloorUpdates, cls).get(func, params, sections)
+        return result.floor_updates 
+  
+    @classmethod   	
+    def get_mult_dates(cls, legislative_days, sections=''):
+        """
+	Example: 
+            date_list = ["08-29-2011", "08-30-2011"]	
+            floor_updates = RTC.FloorUpdates.get_mult_dates(date_list)
+	"""
+        func = "floor_updates"
+	query_string = "|".join(legislative_days)
+	params = {'legislative_day__in':query_string}
+	result = super(FloorUpdates, cls).get(func, params, sections)
+	return result.floor_updates
+    
+    @classmethod
+    def get_todays(cls, sections=''):
+    	import datetime
+    	now = datetime.datetime.now()
+        legislative_day = now.strftime("%Y-%m-%d")	
+        func = "floor_updates"
+        params = {'legislative_day': legislative_day}
+        result = super(FloorUpdates, cls).get(func, params, sections)
+        return result.floor_updates
+        
 class Videos(rtc):
     """ Currently only supports house type videos """
     __help__ = RTC_helpers.VIDEO_HELPER
