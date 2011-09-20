@@ -20,8 +20,14 @@ See RTCtest.py for a full example.
 
 Requirements
 ------------
-python >= 2.6
-unittest2
+- python >= 2.6
+- unittest2
+
+Use the following command to clone the repository locally to work on it:
+<pre><code>
+git clone git@github.com:pythonclt/RTC-Python-Wrapper.git
+</pre></code>
+
 
 Example Usage
 -------------
