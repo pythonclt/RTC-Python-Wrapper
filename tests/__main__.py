@@ -4,7 +4,7 @@ except:
     import unittest
 
 from dummy import *
-from TestRTC import *
+from test_bills import *
 from RTCtest import *
 
 if __name__=="__main__":
