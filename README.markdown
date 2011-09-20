@@ -8,11 +8,11 @@ UPDATE 06-18-2011
 ------
 Added a classmethod to query multiple bills in one request. This is very
 efficient for cases that require iterations through a list of bill_ids.
-Usage: 
+Usage:
 <pre><code>
 bill_list = ['hr1-112', 'hr2-112']
 \#note: setting sections='', will request all sections for each bill
-bills = RTC.get_mult_bills(bill_list, sections='') 
+bills = RTC.get_mult_bills(bill_list, sections='')
 </pre></code>
 See RTCtest.py for a full example.
 
@@ -50,11 +50,11 @@ This is the basic structure:
 <pre><code>
 class Bill(rtc): #name of collection (eg: bills, videos, floor, updates)
     """  __doc_\_ string goes here """
-    __help_\_ = RTC_helpers.BILL_HELPER #string created and imported from RTC_helpers.py   
+    __help_\_ = RTC_helpers.BILL_HELPER #string created and imported from RTC_helpers.py
     ...
     @classmethod
-    def actions(cls, bill_id, sections=('actions',)): 
-        """doc string goes here"""        
+    def actions(cls, bill_id, sections=('actions',)):
+        """doc string goes here"""
         #'sections' parameter above specifies what default sections to pull from a collection
         func = "bills"  #the collection were using (eg: bills.json)
         params = {'bill_id': bill_id}
@@ -62,7 +62,7 @@ class Bill(rtc): #name of collection (eg: bills, videos, floor, updates)
         bill = result.bills[0]
         return [i for i in bill.actions]
 </pre></code>
-When writing a classmethod you can skip creating the obj and just return a dictionary instead.  Just specify 'make_obj=False' when declaring the classmethod parameters. 
+When writing a classmethod you can skip creating the obj and just return a dictionary instead.  Just specify 'make_obj=False' when declaring the classmethod parameters.
 
 <pre><code>
     ...
@@ -73,6 +73,27 @@ When writing a classmethod you can skip creating the obj and just return a dicti
         ...
     ...
 </pre></code>
+
+### Running tests
+Set your PYTHONPATH to the top-level directory--the one containing the RTC.py file. In *nix-land, do this:
+<code>
+$ export PYTHONPATH=/path/to/top/level/directory
+</code>
+In Windows-land, do something like this:
+<code>
+PYTHONPATH=%path%;\path\to\top\level\directory
+</code>
+
+You can run individual tests like this:
+<code>
+$ python tests/TestRTC.py
+</code>
+
+Also, you can run all tests like this:
+<code>
+$ python tests
+</code>
+
 ### Other comments
 - It'd be helpful to enter helper text into the RTC_helpers.py after writing a new classmethod
-- It'd be helpful to write a test function in RTCtest.py after writing a new classmethod
+- It'd be helpful to write some tests after writing a new classmethod. See "tests/dummy.py" to get started.

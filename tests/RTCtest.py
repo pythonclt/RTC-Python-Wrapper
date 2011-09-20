@@ -19,8 +19,8 @@ def mult_bills():
 	bills = RTC.Bill.get_mult_bills(['hr1-112', 'hr2-112', 'hr3-112'], sections=('actions','bill_id',))
 	for i in bills:
 		for a in i.actions:
-			print a.type, a.acted_at, a.text 
-			
+			print a.type, a.acted_at, a.text
+
 def bill_actions():
     actions = RTC.Bill.actions(bill_id)
     for a in actions:
@@ -53,7 +53,7 @@ def bill_amendments():
             'chamber', 'bill_id']
 	for x in attrib_list:
 	    if hasattr(i, x): print getattr(i, x)
-     
+
 
 def bill_related_bills():
     result = RTC.Bill.related_bills(bill_id)
@@ -79,17 +79,17 @@ def votes():
 def floor_updates():
     result = RTC.FloorUpdates.get_by_date('2011-09-02')
     for i in result:
-        print "--------------------------------------"       
+        print "--------------------------------------"
         print i.chamber, i.timestamp
         # These fields are not guaranteed:  i.bioguide_ids, i.roll_ids, i.bill_ids
-        print "EVENTS:"        
+        print "EVENTS:"
         for e in i.events:
             print e
 def get_mult_floor_updates():
     date_list = ['2011-09-02', '2011-09-01', '2011-08-31',
 		 '2011-08-30', '2011-08-29']
     result = RTC.FloorUpdates.get_mult_dates(date_list)
-    for i in result: print i.chamber, i.timestamp   
+    for i in result: print i.chamber, i.timestamp
 
 def todays_floor_updates():
     result = RTC.FloorUpdates.get_todays()
