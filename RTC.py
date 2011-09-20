@@ -292,11 +292,11 @@ class Votes(RTC_Client):
 
 class FloorUpdates(RTC_Client):
     @classmethod
-    def get_by_date(cls, legislative_day, make_obj=True, sections=''):
+    def get_by_date(cls, legislative_day, make_obj=False, sections=''):
         endpoint = "floor_updates.json"
         params = {'legislative_day':legislative_day}
         result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
-        return result.floor_updates 
+        return result['floor_updates'] 
   
     @classmethod   	
     def get_mult_dates(cls, legislative_days, make_obj=True, sections=''):
