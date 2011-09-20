@@ -1,11 +1,15 @@
+<<<<<<< HEAD
 RTC Python Library
 
 WARNING: This may create a more transparent government. If you don't want change then stop reading here. 
 
+=======
+RTC Python Wrapper Library
+>>>>>>> Another batch of README changes
 ==================
 Update 09-20-2011
 ------
-Started cleaning up and improving the README file.
+- Started cleaning up and improving the README file.
 
 UPDATE 06-18-2011
 ------
@@ -31,6 +35,13 @@ Use the following command to clone the repository locally to work on it:
 git clone git@github.com:pythonclt/RTC-Python-Wrapper.git
 </pre></code>
 
+List of Files
+-------------
+- README.markdown - you're reading it
+- requirements.txt - list of required Python packages
+- RTC_helpers.py - Simple file to hold help and __doc__ string text related to the RTC python library.
+- RTC.py - Python library for interacting with the Sunlight Labs Real Time Congress API.
+- RTCtest.py - Simple test file to make sure each function is working.
 
 Example Usage
 -------------
@@ -50,7 +61,7 @@ print bill.sponsor_id, bill.vetoed, bill.last_action.text
 
 See RTCtest.py for more examples usage.
 
-Development Notes for Contributers
+Development Notes for Contributors
 ----------------------------------
 - dict2obj is a function that coverts the json converted dictionary into a usable object. Since much of the RTC API's fields are not guaranteed, this may help avoid the extra coding for keyErrors.  Additionally, it is convenient to use dot notation instead of dictionaries.
 
