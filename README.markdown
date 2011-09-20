@@ -1,4 +1,7 @@
 RTC Python Library
+
+WARNING: This may create a more transparent government. If you don't want change then stop reading here. 
+
 ==================
 Update 09-20-2011
 ------
