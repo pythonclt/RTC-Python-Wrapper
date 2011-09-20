@@ -5,18 +5,9 @@ Must be edited manually.
 """
 import RTC
 from pprint import *
-<<<<<<< HEAD
-bill_id='hr2-112'
-RTC.API_KEY = '1cd3497f070d44acbfc582c8bc064842'
-=======
 bill_id = 'hr2-112'
 RTC.API_KEY = 'c448541518f24d79b652ccc57b384815'
-<<<<<<< HEAD
-
->>>>>>> 7233d4d81b64c7dc43f6824df4bf0a4a1c0c98b2
-=======
 RTC.apikey = 'c448541518f24d79b652ccc57b384815'
->>>>>>> 83de19e89e7d9070431afe4f8830aaa57fdf1fde
 
 #bill tests
 def bill():
@@ -25,20 +16,11 @@ def bill():
 
 
 def mult_bills():
-<<<<<<< HEAD
 	bills = RTC.Bill.get_mult_bills(['hr1-112', 'hr2-112', 'hr3-112'], sections=('actions','bill_id',))
 	for i in bills:
 		for a in i.actions:
 			print a.type, a.acted_at, a.text 
-=======
-    bills = RTC.Bill.get_mult_bills(['hr1-112', 'hr2-112', 'hr3-112'],
-                                    sections='')
-    for i in bills:
-        for a in i.actions:
-            print a.type, a.acted_at, a.text
-
-
->>>>>>> 7233d4d81b64c7dc43f6824df4bf0a4a1c0c98b2
+			
 def bill_actions():
     actions = RTC.Bill.actions(bill_id)
     for a in actions:
