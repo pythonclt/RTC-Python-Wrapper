@@ -1,5 +1,9 @@
 RTC Python Library
 ==================
+Update 09-20-2011
+------
+Started cleaning up and improving the README file.
+
 UPDATE 06-18-2011
 ------
 Added a classmethod to query multiple bills in one request. This is very
