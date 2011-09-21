@@ -1,2 +1,2 @@
 #!/bin/bash
-PYTHONPATH=`pwd`; python tests
+PYTHONPATH=`pwd` python tests
