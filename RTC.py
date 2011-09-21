@@ -343,7 +343,6 @@ class Videos(RTC_Client):
         ### Only include clips from each video that contain bill_id ###
         clips = []
         for v in results['videos']:
-            print(v)
             if v.has_key('bills') and bill_id in v['bills']:
                 for clip in v['clips']: 
                     clips.append(clip)
@@ -368,22 +367,7 @@ class Videos(RTC_Client):
         #################################################
         return clips
 
-    @classmethod
-    def get_legislator_name(cls, bioguide_id, make_obj=False, sections=('clip_urls', 'duration',
-                                                           'legislative_day', 'clip_id',
-                                                           'video_id', 'bills', 'clips')):
-        endpoint = "videos.json"
-        params = {'clips.bioguide_ids': name}
-        results = super(Videos, cls)._apicall(endpoint, sections, make_obj, **params)
-        ### Only include clips from each video that contain bill_id ###
-        clips = []
-        for v in results['videos']:
-            for clip in v['clips']: 
-                if clip.has_key('legislator_names') and name in clip['legislator_names']:
-                    clips.append(clip)
-            v['clips'] = clips
-        #################################################
-        return clips
+
 class Amendments(RTC_Client):
     """ 
     Represents the amendments collection, which holds all amendments 
@@ -401,7 +385,7 @@ class Amendments(RTC_Client):
     """
 
     @classmethod
-    def get_amendment(cls, amendment_id, make_obj=False, sections=RTC_helpers.AMENDMENTS_DEFAULT_SECTIONS):
+    def get_amendment(cls, amendment_id, make_obj=False, sections=RTC_helpers.AMENDMENT_DEFAULT_SECTIONS) :
         endpoint = "amendments.json"
         params = {'amendment_id': amendment_id}
         result = super(Amendments, cls)._apicall(endpoint, sections, make_obj, **params)
