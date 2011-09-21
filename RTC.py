@@ -292,6 +292,12 @@ class Votes(RTC_Client):
 
 class FloorUpdates(RTC_Client):
     @classmethod
+    def search(cls, query, make_obj=False, sections=''):
+        endpoint = "floor_updates.json"
+        params = {'search':query}
+        result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
+        return result['floor_updates']
+    @classmethod
     def get_by_date(cls, legislative_day, make_obj=False, sections=''):
         endpoint = "floor_updates.json"
         params = {'legislative_day':legislative_day}
