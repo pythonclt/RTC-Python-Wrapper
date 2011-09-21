@@ -74,3 +74,69 @@ VIDEO_HELPER = """
         EXAMPLE:
 
          """
+AMENDMENTS_HELPER = """
+Example http query:
+    amendments.json...amendment_id=s626-112
+    
+    fields ===>
+        sponsor_id, number, actions, last_action_at, sponsor_type, session, 
+        amendment_id, sponsor, title, district, nickname, bioguide_id, 
+        last_name, name_suffix,  govtrack_id, party, first_name, chamber, 
+        state, bill, abbreviated, awaiting_signature, bill_id, bill_type, 
+        chamber, code, cosponsors_count, enacted, house_passage_result, 
+        house_passage_result_at, introduced_at, last_action_at, 
+        last_passage_vote_at, last_version_on, number, official_title, 
+        passage_votes_count, popular_title, session, short_title, 
+        sponsor_id, vetoed
+    sponsor ===>
+        ::title->
+        ::district->
+        ::nickname->
+        ::bioguide_id->
+        ::last_name->
+        ::name_suffix->
+        ::govtrack_id->
+        ::party->
+        ::first_name->
+        ::chamber->
+        ::state-> 
+    bill ===>
+        ::abbreviated->
+        ::awaiting_signature->
+        ::bill_id->
+        ::bill_type->
+        ::chamber->
+        ::code->
+        ::cosponsors_count->
+        ::enacted->
+        ::house_passage_result->
+        ::house_passage_result_at->
+        ::introduced_at->
+        ::last_action_at->
+        ::last_passage_vote_at->
+        ::last_version_on->
+        ::number->
+        ::official_title->
+        ::passage_votes_count->
+        ::popular_title->
+        ::session->
+        ::short_title->
+        ::sponsor_id->
+        ::vetoed->
+        """
+
+AMENDMENTS_DEFAULT_SECTIONS = ('sponsor_id',
+                               'number',
+                               'actions',
+                               'last_action_at',
+                               'sponsor_type',
+                               'session',
+                               'amendment_id',
+                               'sponsor',
+                               'offered_at',
+                               'bill_id',
+                               'state',
+                               'chamber',
+                               'purpose')
+
+

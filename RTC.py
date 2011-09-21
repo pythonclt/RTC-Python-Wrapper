@@ -346,3 +346,38 @@ class Videos(RTC_Client):
         #################################################
         return clips
 
+class Amendments(RTC_Client):
+    """ 
+    Represents the amendments collection, which holds all amendments 
+    to bills and resolutions offered in Congress.
+
+    Amendments IDs are a combination of the chamber, the amendment number, and the 
+    session of Congress an amendment was offered in. They are of the format:
+
+    [chamber][number]-[session]
+
+    For example, Senate amendment no. 4850 from the 111th Congress would be "s4850-111".
+    
+    All fields are guaranteed.
+
+    """
+
+    @classmethod
+    def get_amendment(cls, amendment_id, make_obj=True, sections=RTC_helpers.AMENDMENT_DEFAULT_SECTIONS):
+        endpoint = "amendments.json"
+        params = {'amendment_id': amendment_id}
+        result = super(Amendments, cls)._apicall(endpoint, sections, make_obj, **params)
+        amendment = result.amendments[0]
+        return amendment 
+
+    @classmethod
+    def get_mult_amendments(cls, amendment_ids, make_obj=True,
+                       sections=RTC_helpers.AMENDMENT_DEFAULT_SECTIONS):
+        endpoint = "amendments.json"
+
+        amendments = "|".join(amendment_ids)
+        
+        params = {'amendment_id__in': amendments}
+        result = super(Amendments, cls)._apicall(endpoint, sections, make_obj, **params)
+        amendment_list = result.amendments
+        return amendment_list
