@@ -1,11 +1,8 @@
-RTC Python Library
+RTC Python Wrapper Library
+==========================
 
 WARNING: This may create a more transparent government. If you don't want change then stop reading here. 
 
-=======
-RTC Python Wrapper Library
-
-==================
 Update 09-20-2011
 ------
 - Started cleaning up and improving the README file.
