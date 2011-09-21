@@ -86,8 +86,10 @@ def floor_updates():
         for e in i['events']:
             print e
 def floor_updates_search():
-    result= RTC.FloorUpdates.search('and')
+    q = 'and'    
+    result= RTC.FloorUpdates.search(q)
     for i in result: print pprint(i)
+
 def get_mult_floor_updates():
     date_list = ['2011-09-02', '2011-09-01', '2011-08-31',
 		 '2011-08-30', '2011-08-29']

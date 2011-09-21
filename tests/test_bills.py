@@ -13,7 +13,7 @@ class TestBills(unittest.TestCase):
         self.bill_id = 'hr2-112'
         self.bills = RTC.Bill.get_mult_bills([self.bill_id], sections='')
         for i in self.bills:
-            self.assertEqual(i.bill_id, self.bill_id)
+            self.assertEqual(i['bill_id'], self.bill_id)
 
 
 if __name__ == '__main__':
