@@ -79,21 +79,24 @@ def votes():
 def floor_updates():
     result = RTC.FloorUpdates.get_by_date('2011-09-02')
     for i in result:
-        print "--------------------------------------"
-        print i.chamber, i.timestamp
+        print "--------------------------------------"       
+        print i['chamber'], i['timestamp']
         # These fields are not guaranteed:  i.bioguide_ids, i.roll_ids, i.bill_ids
-        print "EVENTS:"
-        for e in i.events:
+        print "EVENTS:"        
+        for e in i['events']:
             print e
+def floor_updates_search():
+    result= RTC.FloorUpdates.search('and')
+    for i in result: print pprint(i)
 def get_mult_floor_updates():
     date_list = ['2011-09-02', '2011-09-01', '2011-08-31',
 		 '2011-08-30', '2011-08-29']
     result = RTC.FloorUpdates.get_mult_dates(date_list)
-    for i in result: print i.chamber, i.timestamp
+    for i in result: print i['chamber'], i['timestamp']
 
 def todays_floor_updates():
     result = RTC.FloorUpdates.get_todays()
-    for i in result: print i.chamber, i.timestamp
+    for i in result: print i['chamber'], i['timestamp']
 
 
 # video tests
@@ -109,19 +112,19 @@ def video_test():
                 (clip.offset, clip.duration, clip.events[0])
 
 
-bill()
-mult_bills()
-bill_actions()
-bill_passage_votes()
-bill_committees()
-bill_titles()
-bill_amendments()
-bill_related_bills()
-bill_cosponsors()
+#bill()
+#mult_bills()
+#bill_actions()
+#bill_passage_votes()
+#bill_committees()
+#bill_titles()
+#bill_amendments()
+#bill_related_bills()
+#bill_cosponsors()
 
-votes()
-
+#votes()
 floor_updates()
-get_mult_floor_updates()
-todays_floor_updates()
+floor_updates_search()
+#get_mult_floor_updates()
+#todays_floor_updates()
 #video_test()

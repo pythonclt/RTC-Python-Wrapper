@@ -118,7 +118,7 @@ class Bill(RTC_Client):
     __help__ = RTC_helpers.BILL_HELPER
 
     @classmethod
-    def bill_check(cls, bill_id, make_obj=True, sections=('bill_id',),):
+    def bill_check(cls, bill_id, make_obj=False, sections=('bill_id',),):
     # check if bill exists
         """
            checks to see if bill exists
@@ -130,7 +130,7 @@ class Bill(RTC_Client):
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
 
         try:
-            bill = result.bills[0].get('bill_id')
+            bill = result['bills[0]']['bill_id']
             exists = True
         except IndexError:
             exists = False
@@ -138,15 +138,15 @@ class Bill(RTC_Client):
 
 
     @classmethod
-    def get_bill(cls, bill_id, make_obj=True, sections=RTC_helpers.BILL_DEFAULT_SECTIONS):
+    def get_bill(cls, bill_id, make_obj=False, sections=RTC_helpers.BILL_DEFAULT_SECTIONS):
         endpoint = "bills.json"
         params = {'bill_id': bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
-        bill = result.bills[0]
+        bill = result['bills'][0]
         return bill
 
     @classmethod
-    def get_mult_bills(cls, bill_ids, make_obj=True,
+    def get_mult_bills(cls, bill_ids, make_obj=False,
                        sections=RTC_helpers.BILL_DEFAULT_SECTIONS):
         """
         USE THIS IF REQUESTING MULTIPLE BILLS
@@ -160,11 +160,11 @@ class Bill(RTC_Client):
 
         params = {'bill_id__in': bills}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
-        bill_list = result.bills
+        bill_list = result['bills']
         return bill_list
 
     @classmethod
-    def actions(cls, bill_id, make_obj=True, sections=('actions',)):
+    def actions(cls, bill_id, make_obj=False, sections=('actions',)):
         """
         list of actions
             Attributes of each action: text, acted_at, and type
@@ -173,11 +173,11 @@ class Bill(RTC_Client):
         endpoint = "bills.json"
         params = {'bill_id': bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
-        bill = result.bills[0]
+        bill = result['bills'][0]
         return [i for i in bill.actions]
 
     @classmethod
-    def passage_votes(cls, bill_id, make_obj=True, sections=('passage_votes',)):
+    def passage_votes(cls, bill_id, make_obj=False, sections=('passage_votes',)):
         """
         list of passage votes
         Attributes of each passage_vote: result, passage_type, voted_at, text,
@@ -186,11 +186,11 @@ class Bill(RTC_Client):
         endpoint = "bills.json"
         params = {'bill_id': bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
-        bill = result.bills[0]
+        bill = result['bills'][0]
         return [i for i in bill.passage_votes]
 
     @classmethod
-    def committees(cls, bill_id, make_obj=True, sections=('committees', 'committee_ids')):
+    def committees(cls, bill_id, make_obj=False, sections=('committees', 'committee_ids')):
         """
         returns a list of committee details & committee-specific
         activities related a bill
@@ -202,17 +202,17 @@ class Bill(RTC_Client):
         endpoint = "bills.json"
         params = {'bill_id': bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
-        bill = result.bills[0]
-        return bill.committees  # FIXME: TERRIBLE BUG HERE!!
+        bill = result['bills'][0]
+        return bill['committees']  # FIXME: TERRIBLE BUG HERE!!
 
     #FIXME: committee_ids are not indexed on some bill objects
     @classmethod
-    def committee_ids(cls, bill_id, make_obj=True, sections=('committee_ids',)):
+    def committee_ids(cls, bill_id, make_obj=False, sections=('committee_ids',)):
         """ list of the committee ids """
         endpoint = "bills.json"
         params = {'bill_id': bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
-        bill = result.bills[0]
+        bill = result['bills'][0]
         return committee_ids  # Committee ids are not returning!!!
 
     @classmethod
@@ -226,7 +226,7 @@ class Bill(RTC_Client):
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
         bill = result['bills'][0]
         for title in bill['titles']:
-            value = title.get('as')
+            value = title['as']
             title['type_as'] = value  # avoid keyword conflicts
         modified_result = dict2obj(bill['titles'])
         return modified_result
@@ -241,10 +241,9 @@ class Bill(RTC_Client):
         params = {"bill_id": bill_id}
         response = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
         try:
-            related_bills = response.bills[0].get('related_bills')
-            related_types = related_bills.keys()
+            related_bills = response['bills'][0]['related_bills']
             bill_list = []
-            for i in related_types:
+            for i in related_bills:
                 for value in related_bills[i]:
                     bill_list.append(value)
         except AttributeError:
@@ -252,7 +251,7 @@ class Bill(RTC_Client):
         return bill_list
 
     @classmethod
-    def amendments(cls, bill_id, make_obj=True, sections=('amendments',)):
+    def amendments(cls, bill_id, make_obj=False, sections=('amendments',)):
         """
         list of amendments
             Attributes of each amendment:
@@ -263,11 +262,11 @@ class Bill(RTC_Client):
         endpoint = "bills.json"
         params = {"bill_id": bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
-        bill = result.bills[0]
+        bill = result['bills'][0]
         return [i for i in bill.amendments]
 
     @classmethod
-    def cosponsors(cls, bill_id, make_obj=True, sections=('cosponsors',)):
+    def cosponsors(cls, bill_id, make_obj=False, sections=('cosponsors',)):
         """
         list of cosponsors
             Attributes of each cosponsor:
@@ -278,13 +277,13 @@ class Bill(RTC_Client):
         endpoint = "bills.json"
         params = {"bill_id": bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
-        bill = result.bills[0]
+        bill = result['bills'][0]
         return [i for i in bill.cosponsors]
 
 
 class Votes(RTC_Client):
     @classmethod
-    def get_by_bill(cls, bill_id, make_obj=True, sections=''):
+    def get_by_bill(cls, bill_id, make_obj=False, sections=''):
         endpoint = "votes.json"
         params = {'bill_id': bill_id}
         result = super(Votes, cls)._apicall(endpoint, sections, make_obj, **params)
@@ -292,14 +291,20 @@ class Votes(RTC_Client):
 
 class FloorUpdates(RTC_Client):
     @classmethod
-    def get_by_date(cls, legislative_day, make_obj=True, sections=''):
+    def search(cls, query, make_obj=False, sections=''):
+        endpoint = "floor_updates.json"
+        params = {'search':query}
+        result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
+        return result['floor_updates']
+    @classmethod
+    def get_by_date(cls, legislative_day, make_obj=False, sections=''):
         endpoint = "floor_updates.json"
         params = {'legislative_day':legislative_day}
         result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
-        return result.floor_updates 
-
+        return result['floor_updates'] 
+  
     @classmethod   	
-    def get_mult_dates(cls, legislative_days, make_obj=True, sections=''):
+    def get_mult_dates(cls, legislative_days, make_obj=False, sections=''):
         """
         Example: 
             date_list = ["08-29-2011", "08-30-2011"]	
@@ -319,8 +324,8 @@ class FloorUpdates(RTC_Client):
         endpoint = "floor_updates.json"
         params = {'legislative_day': legislative_day}
         result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
-        return result.floor_updates
-
+        return result['floor_updates']
+        
 class Videos(RTC_Client):
     """ Currently only supports house type videos """
     __help__ = RTC_helpers.VIDEO_HELPER
@@ -330,8 +335,8 @@ class Videos(RTC_Client):
 
     @classmethod
     def get_by_bill(cls, bill_id, make_obj=False, sections=('clip_urls', 'duration',
-                                                           'legislative_day', 'clip_id',
-                                                           'video_id', 'bills', 'clips')):
+                                             'legislative_day', 'clip_id',
+                                             'video_id', 'bills', 'clips')):
         endpoint = "videos.json"
         params = {'clips.bills': bill_id}
         results = super(Videos, cls)._apicall(endpoint, sections, make_obj, **params)
@@ -379,3 +384,38 @@ class Videos(RTC_Client):
             v['clips'] = clips
         #################################################
         return clips
+class Amendments(RTC_Client):
+    """ 
+    Represents the amendments collection, which holds all amendments 
+    to bills and resolutions offered in Congress.
+
+    Amendments IDs are a combination of the chamber, the amendment number, and the 
+    session of Congress an amendment was offered in. They are of the format:
+
+    [chamber][number]-[session]
+
+    For example, Senate amendment no. 4850 from the 111th Congress would be "s4850-111".
+    
+    All fields are guaranteed.
+
+    """
+
+    @classmethod
+    def get_amendment(cls, amendment_id, make_obj=False, sections=RTC_helpers.AMENDMENTS_DEFAULT_SECTIONS):
+        endpoint = "amendments.json"
+        params = {'amendment_id': amendment_id}
+        result = super(Amendments, cls)._apicall(endpoint, sections, make_obj, **params)
+        amendment = result.amendments[0]
+        return amendment 
+
+    @classmethod
+    def get_mult_amendments(cls, amendment_ids, make_obj=False,
+                       sections=RTC_helpers.AMENDMENT_DEFAULT_SECTIONS):
+        endpoint = "amendments.json"
+
+        amendments = "|".join(amendment_ids)
+        
+        params = {'amendment_id__in': amendments}
+        result = super(Amendments, cls)._apicall(endpoint, sections, make_obj, **params)
+        amendment_list = result.amendments
+        return amendment_list
