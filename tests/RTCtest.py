@@ -89,11 +89,11 @@ def get_mult_floor_updates():
     date_list = ['2011-09-02', '2011-09-01', '2011-08-31',
 		 '2011-08-30', '2011-08-29']
     result = RTC.FloorUpdates.get_mult_dates(date_list)
-    for i in result: print i.chamber, i.timestamp
+    for i in result: print i['chamber'], i['timestamp']
 
 def todays_floor_updates():
     result = RTC.FloorUpdates.get_todays()
-    for i in result: print i.chamber, i.timestamp
+    for i in result: print i['chamber'], i['timestamp']
 
 
 # video tests
@@ -120,13 +120,7 @@ def video_test():
 #bill_cosponsors()
 
 #votes()
-
 floor_updates()
-<<<<<<< HEAD:tests/RTCtest.py
-get_mult_floor_updates()
-todays_floor_updates()
-=======
 #get_mult_floor_updates()
 #todays_floor_updates()
->>>>>>> played with git to make it work:RTCtest.py
 #video_test()

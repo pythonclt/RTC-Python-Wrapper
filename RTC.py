@@ -299,27 +299,27 @@ class FloorUpdates(RTC_Client):
         return result['floor_updates'] 
   
     @classmethod   	
-    def get_mult_dates(cls, legislative_days, make_obj=True, sections=''):
+    def get_mult_dates(cls, legislative_days, make_obj=False, sections=''):
         """
-	Example: 
+        Example: 
             date_list = ["08-29-2011", "08-30-2011"]	
             floor_updates = RTC.FloorUpdates.get_mult_dates(date_list)
-	"""
+        """
         endpoint = "floor_updates.json"
-	query_string = "|".join(legislative_days)
-	params = {'legislative_day__in':query_string}
-	result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
-	return result.floor_updates
+    	query_string = "|".join(legislative_days)
+       	params = {'legislative_day__in':query_string}
+      	result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
+    	return result['floor_updates']
     
     @classmethod
-    def get_todays(cls, make_obj=True, sections=''):
+    def get_todays(cls, make_obj=False, sections=''):
     	import datetime
     	now = datetime.datetime.now()
         legislative_day = now.strftime("%Y-%m-%d")	
         endpoint = "floor_updates.json"
         params = {'legislative_day': legislative_day}
         result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
-        return result.floor_updates
+        return result['floor_updates']
         
 class Videos(RTC_Client):
     """ Currently only supports house type videos """
