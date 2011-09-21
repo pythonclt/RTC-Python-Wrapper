@@ -174,7 +174,7 @@ class Bill(RTC_Client):
         params = {'bill_id': bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
         bill = result['bills'][0]
-        return [i for i in bill.actions]
+        return [i for i in bill['actions']]
 
     @classmethod
     def passage_votes(cls, bill_id, make_obj=False, sections=('passage_votes',)):
@@ -187,7 +187,7 @@ class Bill(RTC_Client):
         params = {'bill_id': bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
         bill = result['bills'][0]
-        return [i for i in bill.passage_votes]
+        return [i for i in bill['passage_votes']]
 
     @classmethod
     def committees(cls, bill_id, make_obj=False, sections=('committees', 'committee_ids')):
@@ -263,7 +263,7 @@ class Bill(RTC_Client):
         params = {"bill_id": bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
         bill = result['bills'][0]
-        return [i for i in bill.amendments]
+        return [i for i in bill['amendments']]
 
     @classmethod
     def cosponsors(cls, bill_id, make_obj=False, sections=('cosponsors',)):
@@ -278,7 +278,7 @@ class Bill(RTC_Client):
         params = {"bill_id": bill_id}
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
         bill = result['bills'][0]
-        return [i for i in bill.cosponsors]
+        return [i for i in bill['cosponsors']]
 
 
 class Votes(RTC_Client):
@@ -389,7 +389,7 @@ class Amendments(RTC_Client):
         endpoint = "amendments.json"
         params = {'amendment_id': amendment_id}
         result = super(Amendments, cls)._apicall(endpoint, sections, make_obj, **params)
-        amendment = result.amendments[0]
+        amendment = result['amendments'][0]
         return amendment 
 
     @classmethod
@@ -401,5 +401,5 @@ class Amendments(RTC_Client):
         
         params = {'amendment_id__in': amendments}
         result = super(Amendments, cls)._apicall(endpoint, sections, make_obj, **params)
-        amendment_list = result.amendments
+        amendment_list = result['amendments']
         return amendment_list
