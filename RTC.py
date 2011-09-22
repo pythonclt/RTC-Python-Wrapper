@@ -326,7 +326,7 @@ class FloorUpdates(RTC_Client):
         result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
         return result['floor_updates']
         
-class Videos(RTC_Client):
+class HouseVideos(RTC_Client):
     """ Currently only supports house type videos """
     __help__ = RTC_helpers.VIDEO_HELPER
 
@@ -337,27 +337,29 @@ class Videos(RTC_Client):
     def get_by_bill(cls, bill_id, make_obj=False, sections=('clip_urls', 'duration',
                                              'legislative_day', 'clip_id',
                                              'video_id', 'bills', 'clips')):
-        """
-
-        """
         endpoint = "videos.json"
         params = {'clips.bills': bill_id}
-        results = super(Videos, cls)._apicall(endpoint, sections, make_obj, **params)
+        results = super(HouseVideos, cls)._apicall(endpoint, sections, make_obj, **params)
         ### Only include clips from each video that contain bill_id ###
         videos = []
         for v in results['videos']:
             if v.has_key('bills') and bill_id in v['bills']:
-                videos.append(v)
-        #################################################
+                clips = []
+                for c in v['clips']:
+                    if c.has_key('bills') and bill_id in c['bills']:
+                        clips.append(c)
+                if len(clips) > 0:
+                    v['clips'] = clips 
+                    videos.append(v)
         return videos
 
     @classmethod
-    def get_legislator_name(cls, name, make_obj=False, sections=('clip_urls', 'duration',
+    def get_by_legislator_name(cls, name, make_obj=False, sections=('clip_urls', 'duration',
                                                            'legislative_day', 'clip_id',
                                                            'video_id', 'bills', 'clips')):
         endpoint = "videos.json"
         params = {'clips.legislator_names': name}
-        results = super(Videos, cls)._apicall(endpoint, sections, make_obj, **params)
+        results = super(HouseVideos, cls)._apicall(endpoint, sections, make_obj, **params)
         ### Only include clips from each video that contain a legistrators name
         # Make sure results set has the legislators name sin it
         videos = []
@@ -374,7 +376,32 @@ class Videos(RTC_Client):
                 v['clips'] = clips
                 videos.append(v)
 
-        #################################################
+        return videos
+
+
+    @classmethod
+    def get_by_bioguide_id(cls, bioguide_id, make_obj=False, sections=('clip_urls', 'duration',
+                                                           'legislative_day', 'clip_id',
+                                                           'video_id', 'bills', 'clips')):
+        endpoint = "videos.json"
+        params = {'clips.bioguide_ids': bioguide_id}
+        results = super(HouseVideos, cls)._apicall(endpoint, sections, make_obj, **params)
+        ### Only include clips from each video that contain a legistrators name
+        # Make sure results set has the legislators name sin it
+        videos = []
+        for v in results['videos']:
+            # Json examples in the documentation say there will be a 
+            # legislator_names however in practice they are not there
+            #if v.has_key('bioguide_id') and name in v['bioguide_id']:
+            clips = []
+            for c in v['clips']:
+                if c.has_key('bioguide_ids') and bioguide_id in c['bioguide_ids']:
+                    clips.append(c)
+
+            if len(clips) > 0:
+                v['clips'] = clips
+                videos.append(v)
+
         return videos
 
 class Amendments(RTC_Client):
