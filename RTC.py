@@ -1,10 +1,10 @@
 """
-Python library for interacting with the Sunlight Labs
-Real Time Congress API.
+    Python wrapper for interacting with the Sunlight Labs
+    Real Time Congress API.
 """
 
-__author__ = "Matt Johnson"
-__copyright__ = "Copyright 2011, RTC Python Library Project"
+__author__ = "Matt Johnson, Lateef Jackson"
+__copyright__ = "Copyright 2011, Charlotte Python"
 __credits__ = ["James Turk - helped with getting us started"]
 __license__ = "BSD"
 __maintainer__ = "Matt Johnson"
