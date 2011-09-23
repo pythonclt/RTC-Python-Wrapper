@@ -74,7 +74,7 @@ class BaseClient(object):
         pass
 
     @classmethod
-    def _apicall(self, endpoint, sections='', make_obj=False, **kwargs):
+    def _apicall(self, endpoint, sections='', make_obj=False, *args, **kwargs):
         if not apikey:
             raise Exception('API key must be set')
 
@@ -82,9 +82,13 @@ class BaseClient(object):
         kwargs['apikey'] = apikey
         if not(sections == ''):
             kwargs['sections'] = ','.join([arg for arg in sections])
-
-        url = "{0}?{1}".format(urljoin(self.base_url, endpoint),
-                               urlencode(kwargs, doseq=True))
+        if args:
+            extra_arguments = "&{0}".format('&'.join(args))
+        else:
+            extra_arguments = ''
+        url = "{0}?{1}{2}".format(urljoin(self.base_url, endpoint),
+                                            urlencode(kwargs, doseq=True),
+                                            extra_arguments)
         print url
         try:
             response = urlopen(url).read().decode('utf-8')
@@ -280,6 +284,21 @@ class Bill(RTC_Client):
         bill = result['bills'][0]
         return [i for i in bill['cosponsors']]
 
+class Documents(RTC_Client):
+
+    # currently, the posted_at is the only guarenteed field
+    # it used a timestamp format, which requires the url
+    # to display it twice to do a '__gte' and '__lte'
+
+    @classmethod
+    def get_by_date(cls, date, make_obj=False, sections=''):
+        endpoint = "documents.json"
+        begin_time = '%sT00:00:00' % date
+        end_time = '%sT23:59:59' % date
+        params = {'posted_at__gte':begin_time, 'posted_at__lte':end_time}
+        result = super(Documents, cls)._apicall(endpoint, sections,
+        make_obj, **params)
+        return result['documents']
 
 class Votes(RTC_Client):
     @classmethod

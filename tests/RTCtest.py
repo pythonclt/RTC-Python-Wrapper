@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """
 Simple test file to make sure each function is working.
 Must be edited manually.
@@ -113,20 +112,30 @@ def video_test():
             print "* offset: %s | duration: %s | summary: %s  " %\
                 (clip['offset'], clip['duration'], clip['events'][0])
 
+# documents tests
+def document_test():
+    document_list = RTC.Documents.get_by_date('2011-03-14')
+    print pprint(document_list)
 
-bill()
-mult_bills()
-bill_actions()
-bill_passage_votes()
-bill_committees()
-bill_titles()
-bill_amendments()
-bill_related_bills()
-bill_cosponsors()
+#bill()
+#mult_bills()
+#bill_actions()
+#bill_passage_votes()
+#bill_committees()
+#bill_titles(
+#bill_amendments()
+#bill_related_bills()
+#bill_cosponsors()
 
-votes()
-floor_updates()
-floor_updates_search()
-get_mult_floor_updates()
-todays_floor_updates()
-video_test()
+#votes()
+#floor_updates()
+#floor_updates_search()
+#get_mult_floor_updates()
+#todays_floor_updates()
+#video_test()
+document_test()
+
+
+
+if __name__ == '__main__':
+    pass
