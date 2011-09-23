@@ -285,13 +285,21 @@ class Bill(RTC_Client):
         return [i for i in bill['cosponsors']]
 
 class Documents(RTC_Client):
+    """
+    Holds links to various kinds of documents produced
+    by agencies within Congress, or agencies outside of Congress regarding
+    legislation and related matters.
 
-    # currently, the posted_at is the only guarenteed field
-    # it used a timestamp format, which requires the url
-    # to display it twice to do a '__gte' and '__lte'
+    This collection currently contains only one kind of document:
+
+    whip_notice - Daily and weekly digests of chamber schedules published by
+    House leadership of each party.
+
+    """
 
     @classmethod
     def get_by_date(cls, date, make_obj=False, sections=''):
+        """Ex: RTC.Documents.get_by_date('2011-03-14')"""
         endpoint = "documents.json"
         begin_time = '%sT00:00:00' % date
         end_time = '%sT23:59:59' % date
