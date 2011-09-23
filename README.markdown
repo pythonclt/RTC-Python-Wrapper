@@ -1,35 +1,16 @@
 RTC Python Wrapper Library
 ==========================
 
-WARNING: This may create a more transparent government. If you don't want change then stop reading here. 
+This is a Python wrapper for the [Sunlight Foundation's Real Time
+Congress API](http://services.sunlightlabs.com/docs/Real_Time_Congress_API/).
 
-Update 09-20-2011
-------
-- Started cleaning up and improving the README file.
+Sunlight Labs takes government data and transforms it into services developers can use.  The Real Time Congress (RTC) API is a RESTful API over the artifacts of Congress, in as close to real-time as possible.
 
-UPDATE 06-18-2011
-------
-Added a classmethod to query multiple bills in one request. This is very
-efficient for cases that require iterations through a list of bill_ids.
-Usage:
-<pre><code>
-bill_list = ['hr1-112', 'hr2-112']
-\#note: setting sections='', will request all sections for each bill
-bills = RTC.get_mult_bills(bill_list, sections='')
-</pre></code>
-See RTCtest.py for a full example.
-
-
+**WARNING**: This may create a more transparent government. If you don't want change then stop reading here. 
 
 Requirements
 ------------
 - python >= 2.6
-- unittest2
-
-Use the following command to clone the repository locally to work on it:
-<pre><code>
-git clone git@github.com:pythonclt/RTC-Python-Wrapper.git
-</pre></code>
 
 List of Files
 -------------
@@ -37,7 +18,8 @@ List of Files
 - requirements.txt - list of required Python packages
 - RTC_helpers.py - Simple file to hold help and __doc__ string text related to the RTC python library.
 - RTC.py - Python library for interacting with the Sunlight Labs Real Time Congress API.
-- RTCtest.py - Simple test file to make sure each function is working.
+- tests/ - Folder containing all tests (files that start with 'test_')
+  - RTCtest.py - File demonstrating some of the API usage.
 
 Example Usage
 -------------
@@ -55,11 +37,21 @@ bill = RTC.Bill.get_bill(bill_id)
 print bill['sponsor_id'], bill['vetoed'], bill['last_action']['text']
 </pre></code>
 
-See RTCtest.py for more examples usage.
+See tests/RTCtest.py for more examples usage.
 
-Development Notes for Contributors
+How to contribute
 ----------------------------------
-- dict2obj is a function that coverts the json converted dictionary into a usable object. Since much of the RTC API's fields are not guaranteed, this may help avoid the extra coding for keyErrors.  Additionally, it is convenient to use dot notation instead of dictionaries.
+
+- Fork the project.
+- Read through the outstanding issues, or report new ones
+  [here](https://github.com/pythonclt/RTC-Python-Wrapper/issues).
+- Write some tests to make sure we don't accidentally break your
+  code later. We've created a [test
+  example](https://github.com/pythonclt/RTC-Python-Wrapper/blob/master/tests/test_example.py)
+  for you.
+- Enter helper text into the **RTC_helpers.py** after writing a new
+  classmethod to help document what you've done.
+- Send us a pull request.
 
 ###How to create class methods for collections
 This is the basic structure:
@@ -79,25 +71,30 @@ class Bill(RTC_Client): #name of collection (eg: bills, videos, floor, updates)
 
 
 ### Running tests
-Set your PYTHONPATH to the top-level directory--the one containing the RTC.py file. In *nix-land, do this:
+Make sure you have the **discover** package installed. It is included in our
+**requirements.txt**, which you can install with this command:
+
 <code>
-$ export PYTHONPATH=/path/to/top/level/directory
-</code>
-In Windows-land, do something like this:
-<code>
-PYTHONPATH=%path%;\path\to\top\level\directory
+$ pip install -r requirements.txt
 </code>
 
-You can run individual tests like this:
+Then, in the project directory you can run all the tests with:
+
 <code>
-$ python tests/TestRTC.py
+$ python -m discover
 </code>
 
-Also, you can run all tests like this:
+You can run individual or grouped tests based on patterns:
 <code>
-$ python tests
+$ python -m discover -p 'test_videos.py'
 </code>
 
-### Other comments
-- It'd be helpful to enter helper text into the RTC_helpers.py after writing a new classmethod
-- It'd be helpful to write some tests after writing a new classmethod. See "tests/dummy.py" to get started.
+or 
+
+<code>
+$ python -m discover -p '*.py'
+</code>
+
+### Development Notes for Contributors
+**dict2obj** is a function that coverts the json converted dictionary into a usable object. Since much of the RTC API's fields are not guaranteed, this may help avoid the extra coding for keyErrors.  Additionally, it is convenient to use dot notation instead of dictionaries.
+
