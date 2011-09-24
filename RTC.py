@@ -35,7 +35,7 @@ API_KEY = None
 
 
 def dict2obj(d):
-    """ convenient conversion endpointtion found on stackoverflow.com
+    """ convenient conversion function found on stackoverflow.com
     posted by Roberto Liffredo"""
     if isinstance(d, dict):
         n = {}
