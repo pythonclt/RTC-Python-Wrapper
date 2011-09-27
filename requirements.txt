@@ -1,4 +1,3 @@
 unittest2
 discover
-threading
 wsgiref
