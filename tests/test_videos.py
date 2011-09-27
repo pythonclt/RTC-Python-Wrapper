@@ -58,8 +58,8 @@ class TestHouseVideos(unittest.TestCase):
         """
 
         file_dir = os.path.abspath(os.path.dirname(__file__)) # Constant at top of file
-        by_name_json = open('%s/by_name_videos.json' % file_dir).read()
-        by_bill_json = open('%s/by_bill_videos.json' % file_dir).read()
+        by_name_json = open('%s/json/videos/by_name_videos.json' % file_dir).read()
+        by_bill_json = open('%s/json/videos/by_bill_videos.json' % file_dir).read()
 
         html = by_bill_json    
         def bill_app(env, resp): # should be helper function
