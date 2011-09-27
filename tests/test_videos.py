@@ -69,7 +69,6 @@ class TestHouseVideos(unittest.TestCase):
             return [html]
 
         MockServer.handle(bill_app)
-        RTC.RTC_Client.base_url = 'http://%s:%s/' % (MockServer.host, MockServer.port)
         videos = RTC.HouseVideos.get_by_bill(bill_id)
         assert len(videos) != 0, 'We expect at least one video to be returned'
         for v in videos:

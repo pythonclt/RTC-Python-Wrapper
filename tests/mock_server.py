@@ -1,8 +1,10 @@
-
+import random
 from threading import Thread
 import urllib2
 
 from wsgiref.simple_server import make_server
+
+import RTC
 
 class MockServer(Thread):
     """
@@ -17,9 +19,12 @@ class MockServer(Thread):
         """
         Most common testing case for handling a single request.
         """
+        MockServer.port += random.randint(100, 1000)
+        RTC.RTC_Client.base_url = 'http://%s:%s/' % (MockServer.host, MockServer.port)
         s = MockServer()
         s.__create(app)
         s.start()
+
     
     def __init__(self):
         Thread.__init__(self)
