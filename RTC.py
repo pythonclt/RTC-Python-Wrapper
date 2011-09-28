@@ -72,7 +72,6 @@ class SunlightApiObject(object):
 class BaseClient(object):
     def __init__(self):
         pass
-
     @classmethod
     def _apicall(self, endpoint, sections='', make_obj=False, *args, **kwargs):
         if not apikey:
@@ -91,12 +90,14 @@ class BaseClient(object):
                                             extra_arguments)
         print url
         try:
-            response = urlopen(url).read().decode('utf-8')
-            if make_obj == True:
-                generated_obj = dict2obj(json.loads(response))  # creates nested objects
-                return SunlightApiObject(generated_obj.__dict__)
-            else:
-                return json.loads(response)
+            if self.test_response == '': #if we are not using test response
+                response = urlopen(url).read().decode('utf-8')
+                if make_obj == True:
+                    generated_obj = dict2obj(json.loads(response))  # creates nested objects
+                    return SunlightApiObject(generated_obj.__dict__)
+                else:
+                    return json.loads(response)
+            else: return json.loads(self.test_response) #return test_response
 
         except HTTPError as e:
             raise
@@ -111,7 +112,7 @@ class Error(Exception):
 
 class RTC_Client(BaseClient):
     base_url = 'http://api.realtimecongress.org/api/v1/'
-
+    test_response = '' #for tests   
 class Bill(RTC_Client):
     """
         Usage:
@@ -134,7 +135,7 @@ class Bill(RTC_Client):
         result = super(Bill, cls)._apicall(endpoint, sections, make_obj, **params)
 
         try:
-            bill = result['bills[0]']['bill_id']
+            bill = result['bills'][0]['bill_id']
             exists = True
         except IndexError:
             exists = False
@@ -296,10 +297,10 @@ class Documents(RTC_Client):
     House leadership of each party.
 
     """
-
     @classmethod
     def get_by_date(cls, date, make_obj=False, sections=''):
         """Ex: RTC.Documents.get_by_date('2011-03-14')"""
+        #print cls.test_response
         endpoint = "documents.json"
         begin_time = '%sT00:00:00' % date
         end_time = '%sT23:59:59' % date
