@@ -88,7 +88,7 @@ class BaseClient(object):
         url = "{0}?{1}{2}".format(urljoin(self.base_url, endpoint),
                                             urlencode(kwargs, doseq=True),
                                             extra_arguments)
-        print url
+        
         try:
             if self.test_response == '': #if we are not using test response
                 response = urlopen(url).read().decode('utf-8')
