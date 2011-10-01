@@ -56,7 +56,7 @@ How to contribute
 ###How to create class methods for collections
 This is the basic structure:
 <pre><code>
-class Bill(RTC_Client): #name of collection (eg: bills, videos, floor, updates)
+class Bill(RTC_Client): #name of collection (eg: bills, videos, floor_updates)
     """  __doc_\_ string goes here """
     __help_\_ = RTC_helpers.BILL_HELPER #string created and imported from RTC_helpers.py
     ...
