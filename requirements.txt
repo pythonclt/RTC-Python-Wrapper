@@ -1,3 +1,2 @@
 unittest2
 discover
-wsgiref
