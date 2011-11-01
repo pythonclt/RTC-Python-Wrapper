@@ -302,6 +302,48 @@ class CommitteeHearings(RTC_Client):
         result = super(CommitteeHearings, cls)._apicall(endpoint, sections,
         make_obj, **params)
         return result['committee_hearings']
+    
+    @classmethod
+    def filter(cls, date='', committee_id='', chamber='',
+        search='', make_obj=False, sections='')
+        """ Filter by multiple fields
+            ex:
+            hearings = RTC.CommitteeHearings.filter(date='2011-10-02',
+            chamber='senate')
+        """
+        endpoint = "committee_hearings.json"
+        params = {'legislative_day':date,
+        'committee_id':committee_id, 'chamber':chamber, 'search':search}
+        result = super(CommitteeHearings, cls)_apicall(endpoint, sections,
+        make_obj, **params)
+        return result['committee_hearings']
+
+    @classmethod
+    def get_by_date(cls, date, make_obj=False, sections=''):
+        """get list of committee hearings by date"""
+        endpoint = "committee_hearings.json"
+        params = {'legislative_day':date}
+        result = super(CommitteeHearings, cls)._apicall(endpoint, sections,
+        make_obj, **params)
+        return result['committee_hearings']
+
+    @classmethod
+    def get_by_committee(cls, committee_id, make_obj=False, sections=''):
+        """get list of hearings from specific committees by their committee_id"""
+        endpoint = "committee_hearings.json"
+        params = {'committee_id': committee_id}
+        result = super(CommitteeHearings, cls)._apicall(endpoint, sections,
+        make_obj, **params)
+        return result['committee_hearings']
+
+    @classmethod
+    def get_by_chamber(cls, chamber, make_obj=False, sections=''):
+        """get Committee Hearings from Senate or House"""
+        endpoint = "committee_hearings.json"
+        params = {'chamber':chamber}
+        result = super(CommitteeHearings, cls)._apicall(endpoint, sections,
+        make_obj, **params)
+        return result['committee_hearings']
 
 class Documents(RTC_Client):
     """
