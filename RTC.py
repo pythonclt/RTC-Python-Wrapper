@@ -285,6 +285,24 @@ class Bill(RTC_Client):
         bill = result['bills'][0]
         return [i for i in bill['cosponsors']]
 
+
+class CommitteeHearings(RTC_Client):
+    """
+    The committee_hearings collection holds upcoming scheduled committee hearings
+    in the House and Senate. Past committee hearings may remain in our database for
+    some time, but this data could disappear at any time. Only count on it for
+    upcoming hearings.
+
+    """
+    @classmethod
+    def search(cls, q, make_obj=False, sections=''):
+        """search description"""
+        endpoint = "committee_hearings.json"
+        params = {'search':q}
+        result = super(CommitteeHearings, cls)._apicall(endpoint, sections,
+        make_obj, **params)
+        return result['committee_hearings']
+
 class Documents(RTC_Client):
     """
     Holds links to various kinds of documents produced
@@ -300,7 +318,6 @@ class Documents(RTC_Client):
     @classmethod
     def get_by_date(cls, date, make_obj=False, sections=''):
         """Ex: RTC.Documents.get_by_date('2011-03-14')"""
-        #print cls.test_response
         endpoint = "documents.json"
         begin_time = '%sT00:00:00' % date
         end_time = '%sT23:59:59' % date
@@ -330,12 +347,12 @@ class FloorUpdates(RTC_Client):
         params = {'legislative_day':legislative_day}
         result = super(FloorUpdates, cls)._apicall(endpoint, sections, make_obj, **params)
         return result['floor_updates'] 
-  
-    @classmethod   	
+    
+    @classmethod
     def get_mult_dates(cls, legislative_days, make_obj=False, sections=''):
         """
-        Example: 
-            date_list = ["08-29-2011", "08-30-2011"]	
+        Example:
+            date_list = ["08-29-2011", "08-30-2011"]
             floor_updates = RTC.FloorUpdates.get_mult_dates(date_list)
         """
         endpoint = "floor_updates.json"
