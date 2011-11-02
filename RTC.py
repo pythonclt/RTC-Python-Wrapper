@@ -72,6 +72,7 @@ class SunlightApiObject(object):
 class BaseClient(object):
     def __init__(self):
         pass
+
     @classmethod
     def _apicall(self, endpoint, sections='', make_obj=False, *args, **kwargs):
         if not apikey:
