@@ -23,20 +23,22 @@ class TestCommitteeHearings(unittest.TestCase):
             self.assertIn(self.query, i['description'])
 
     def test_committeehearings_get(self):
-        #json path
-        #
+        json_path = 'CommitteeHearings/get.json'
         collection = RTC.CommitteeHearings
+        TestCommitteeHearings = alter_response(json_path, collection)
         self.date = '2011-10-06'
         self.chamber = 'senate'
         self.committee_id = 'SSEV'
         self.query = 'uranium'
-
-        self.committeehearings = RTC.CommitteeHearings.get(date=self.date, 
+         
+        self.committeehearings = TestCommitteeHearings.get(date=self.date, 
         chamber=self.chamber, committee_id=self.committee_id,
         search=self.query)
 
         self.assertNotEqual(len(self.committeehearings), 0, 'There should be at least 1 result')
-        self.assertNotEqual(len(self.committeehearings), 0, 'There should be at least 1 result')
+        #self.committeehearings = RTC.CommitteeHearings.get(date=self.date, 
+        #chamber=self.chamber, committee_id=self.committee_id,
+        #search=self.query)
         #check that it contains the keyword arguments
         for i in self.committeehearings:
             self.assertIn(self.date, i['legislative_day'], 'Should have correct legi day')
