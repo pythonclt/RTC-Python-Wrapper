@@ -304,17 +304,17 @@ class CommitteeHearings(RTC_Client):
         return result['committee_hearings']
     
     @classmethod
-    def filter(cls, date='', committee_id='', chamber='',
-        search='', make_obj=False, sections='')
+    def get(cls, date='', committee_id='', chamber='',
+        search='', make_obj=False, sections=''):
         """ Filter by multiple fields
             ex:
-            hearings = RTC.CommitteeHearings.filter(date='2011-10-02',
+            hearings = RTC.CommitteeHearings.get(date='2011-10-02',
             chamber='senate')
         """
         endpoint = "committee_hearings.json"
         params = {'legislative_day':date,
         'committee_id':committee_id, 'chamber':chamber, 'search':search}
-        result = super(CommitteeHearings, cls)_apicall(endpoint, sections,
+        result = super(CommitteeHearings, cls)._apicall(endpoint, sections,
         make_obj, **params)
         return result['committee_hearings']
 
