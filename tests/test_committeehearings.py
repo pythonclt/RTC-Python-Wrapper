@@ -17,10 +17,10 @@ class TestCommitteeHearings(unittest.TestCase):
         self.query = 'examine'
         self.committeehearings = TestCommitteeHearings.search(self.query, sections='')
         #self.committeehearings = RTC.CommitteeHearings.search(self.query, sections='')
-        assert len(self.committeehearings) != 0, 'There should be at least 1 result'
+        self.assertNotEqual(len(self.committeehearings), 0, 'There should be at least 1 result')
         #check that they all contain "examine"
         for i in self.committeehearings:
-            assert self.query in i['description']
+            self.assertIn(self.query, i['description'])
 
     def test_committeehearings_get(self):
         #json path
@@ -35,10 +35,11 @@ class TestCommitteeHearings(unittest.TestCase):
         chamber=self.chamber, committee_id=self.committee_id,
         search=self.query)
 
-        assert len(self.committeehearings) !=0, 'There should be at least 1 result'
+        self.assertNotEqual(len(self.committeehearings), 0, 'There should be at least 1 result')
+        self.assertNotEqual(len(self.committeehearings), 0, 'There should be at least 1 result')
         #check that it contains the keyword arguments
         for i in self.committeehearings:
-            assert self.date in i['legislative_day'], 'Should have correct legi day'
-            assert self.chamber in i['chamber'], 'Should have correct chamber'
-            assert self.committee_id in i['committee_id'], 'Should have correct committee_id'
-            assert self.query in i['description'], 'Should have correct query in description field'
+            self.assertIn(self.date, i['legislative_day'], 'Should have correct legi day')
+            self.assertIn(self.chamber, i['chamber'], 'Should have correct chamber')
+            self.assertIn(self.committee_id, i['committee_id'], 'Should have correct committee_id')
+            self.assertIn(self.query, i['description'], 'Should have correct query in description field')
